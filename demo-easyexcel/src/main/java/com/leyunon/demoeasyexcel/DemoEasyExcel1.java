@@ -22,18 +22,18 @@ public class DemoEasyExcel1 {
     public void modelBug() throws IOException {
         File file = new File("export-mode.xlsx");
         File tempFile = new File("f://test.xlsx");
-        ExcelWriter excelWriter = buildExport(tempFile, new FileInputStream(file));
-
+        ExcelWriter excelWriter = EasyExcel.write(tempFile)
+                .withTemplate(new FileInputStream(file))
+                .build();
         WriteSheet writeSheet = EasyExcel.writerSheet().build();
         FillConfig horizontalFillConfig = FillConfig.builder().direction(WriteDirectionEnum.HORIZONTAL).build();
         FillConfig verticalFillConfig = FillConfig.builder().forceNewRow(false).direction(WriteDirectionEnum.VERTICAL).build();
 
         TestHeadData testHeadData = new TestHeadData();
-        testHeadData.setNoCount("1");
-        testHeadData.setCreateTime("22222");
-        testHeadData.setRemark("2222333");
-        testHeadData.setSumCount("2");
-        // 模板文件见 templateFileName 填充内容为
+        testHeadData.setNoCount("头部信息");
+        testHeadData.setCreateTime("头部信息");
+        testHeadData.setRemark("头部信息");
+        testHeadData.setSumCount("头部信息");
         ArrayList<TestHeadData> head = new ArrayList<>();
         head.add(testHeadData);
         excelWriter.fill(new FillWrapper(TestHeadData.class.getSimpleName(), head), horizontalFillConfig, writeSheet);
